@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Cocktail-Genius-Mobile
+
+Take pictures of bar stuff, get recipes that make you look cool.
+
 
 ## Available Scripts
 
