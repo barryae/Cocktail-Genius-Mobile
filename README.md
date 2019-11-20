@@ -1,2 +1,2 @@
 # Cocktail-Genius-Mobile
-A mobile app for all of your virtual bartending needs!
+Take a picture of your available ingredients and receive a bounty of cool cocktails recipes!
