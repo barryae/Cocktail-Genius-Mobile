@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import styled from 'styled-components'
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
@@ -9,16 +9,30 @@ import { Camera } from 'expo-camera';
 // https://www.styled-components.com/docs/basics#getting-started
 const Container = styled.View`
 align-items: center;
-background: white;
 flex: 1;
 justify-content: center;
+`
+
+const CaptureBtn = styled.TouchableOpacity`
+background: white;
+border-radius: 100;
+bottom: 0;
+height: 60;
+position: absolute;
+width: 60;
+`
+
+const CapturedImage = styled.Image`
+height: 100%;
+width: 100%;
 `
 
 export default function App() {
   // using hooks instead of this.state
   // https://reactjs.org/docs/hooks-intro.html
   const [hasCameraPermission, setCameraPermission] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
+  let camera = null
+  const [photo, setPhoto] = useState(null)
 
   // had to abstract this outside of useEffect because react doesn't like
   // having an async function passed into useEffect
@@ -31,42 +45,29 @@ export default function App() {
   // https://reactjs.org/docs/hooks-effect.html
   useEffect(() => {
     getCameraPermission()
-  })
+  }, [])
 
-  // everything below is boilerplate code from the expo camera docs
-  // https://docs.expo.io/versions/v35.0.0/sdk/camera/
-  if (hasCameraPermission === null) {
-    return <Container><Text>Waiting for permission</Text></Container>
-  } else if (hasCameraPermission === false) {
-    return <Container><Text>No access to camera</Text></Container>;
-  } else {
-    return (
-      <View style={{ flex: 1 }}>
-        <Camera style={{ flex: 1 }} type={type}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: 'transparent',
-              flexDirection: 'row',
-            }}>
-            <TouchableOpacity
-              style={{
-                flex: 0.1,
-                alignSelf: 'flex-end',
-                alignItems: 'center',
-              }}
-              onPress={() => {
-                setType(
-                  type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back,
-                )
-              }}>
-              <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
-            </TouchableOpacity>
-          </View>
-        </Camera>
-      </View>
-    )
+  const caputureHandler = async () => {
+    const photo = await camera.takePictureAsync();
+    setPhoto(photo)
   }
+
+  return (
+    <Container>
+      {hasCameraPermission
+        ? photo
+          ? <CapturedImage source={{ uri: photo.uri }} />
+          : <>
+            <Camera
+              ref={cameraRef => camera = cameraRef}
+              style={{ height: '100%', width: '100%' }}
+              type={Camera.Constants.Type.back} />
+            <CaptureBtn
+              onPress={caputureHandler} />
+          </>
+        : <Text>Please give access to camera</Text>
+
+      }
+    </Container>
+  )
 }
