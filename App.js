@@ -76,6 +76,11 @@ export default function App() {
     setPhoto(photo);
   };
 
+  const rejectPhoto = () => {
+    console.log("hit");
+    setPhoto(null);
+  };
+
   return (
     <Container>
       {hasCameraPermission ? (
@@ -86,7 +91,9 @@ export default function App() {
               <Text>Use this image?</Text>
               <ButtonContainer>
                 <Button title="Yes">Yes</Button>
-                <Button title="No">No</Button>
+                <Button title="No" onPress={rejectPhoto}>
+                  No
+                </Button>
               </ButtonContainer>
             </ConfirmImage>
           </>
