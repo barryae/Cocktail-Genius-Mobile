@@ -1,8 +1,9 @@
 # Cocktail-Genius-Mobile
+
 A mobile app for all of your virtual bartending needs!
 
-Hello Steffen,
+Hello Barry,
 
-Thank you for your continued devotion to Cocktail Genius.
+Of course! Let's get it m8.
 
--Barry
+-Steffen
