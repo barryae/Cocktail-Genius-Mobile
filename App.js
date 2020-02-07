@@ -76,8 +76,11 @@ export default function App() {
     setPhoto(photo);
   };
 
+  const acceptPhoto = () => {
+    // process photo
+  };
+
   const rejectPhoto = () => {
-    console.log("hit");
     setPhoto(null);
   };
 
@@ -90,7 +93,9 @@ export default function App() {
             <ConfirmImage>
               <Text>Use this image?</Text>
               <ButtonContainer>
-                <Button title="Yes">Yes</Button>
+                <Button title="Yes" onPress={acceptPhoto}>
+                  Yes
+                </Button>
                 <Button title="No" onPress={rejectPhoto}>
                   No
                 </Button>
