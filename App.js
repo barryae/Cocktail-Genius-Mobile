@@ -47,7 +47,7 @@ export default function App() {
     getCameraPermission()
   }, [])
 
-  const caputureHandler = async () => {
+  const captureHandler = async () => {
     const photo = await camera.takePictureAsync();
     setPhoto(photo)
   }
@@ -63,7 +63,7 @@ export default function App() {
               style={{ height: '100%', width: '100%' }}
               type={Camera.Constants.Type.back} />
             <CaptureBtn
-              onPress={caputureHandler} />
+              onPress={captureHandler} />
           </>
         : <Text>Please give access to camera</Text>
 
