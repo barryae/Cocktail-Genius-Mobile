@@ -7,3 +7,5 @@ Hello Barry,
 Of course! Let's get it m8.
 
 -Steffen
+
+The original code for the app can be found in assets/legacy_code.
