@@ -1,0 +1,80 @@
+body {
+    background-image: url(../images/bar.jpg);
+    background-attachment: fixed;
+    background-size: 100%;
+}
+
+.right {
+    padding: 1rem
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #da401a;
+    border-color: #ffffff;
+}
+
+.results {
+    color: white;
+}
+
+.navbar {
+    font-family: 'Lobster', cursive;
+    padding: 20px;
+    margin: auto;
+    margin-bottom: 60px;
+    margin-top: 20px;
+    border-radius: 25px;
+}
+
+.jumbotron {
+    text-align: center;
+    border-radius: 25px;
+}
+
+.display-4 {
+    font-family: 'Lobster', cursive;
+}
+
+
+img {
+    border: khaki solid 2px;
+}
+
+.pure-img {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+.cocktailResults {
+    color: white;
+}
+
+#cardPics {
+    width: 300px;
+    height:300px;
+    float:left;
+    margin-right: 2rem;
+    
+}
+
+h3 {
+    font-family: 'Lobster', cursive;
+}
+
+.card {
+    padding: 20px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+}
+
+.rightPic {
+    float: left;
+}
+
+.btn-secondary {
+    text-align: center;
+}
