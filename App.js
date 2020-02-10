@@ -1,73 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import styled from 'styled-components'
-import * as Permissions from 'expo-permissions';
-import { Camera } from 'expo-camera';
+import React from "react";
+import { Text, View, YellowBox } from "react-native";
+import { NativeRouter, Route, Link } from "react-router-native";
+import { Camera, Home } from "./views";
 
-// styled-components is a clean way of using css/scss and creating declarative
-// names for tags when placing into our return statement
-// https://www.styled-components.com/docs/basics#getting-started
-const Container = styled.View`
-align-items: center;
-flex: 1;
-justify-content: center;
-`
+// omit the annoying warning about the debugger tab not being open
+YellowBox.ignoreWarnings(["Remote debugger"]);
 
-const CaptureBtn = styled.TouchableOpacity`
-background: white;
-border-radius: 100;
-bottom: 0;
-height: 60;
-position: absolute;
-width: 60;
-`
-
-const CapturedImage = styled.Image`
-height: 100%;
-width: 100%;
-`
-
-export default function App() {
-  // using hooks instead of this.state
-  // https://reactjs.org/docs/hooks-intro.html
-  const [hasCameraPermission, setCameraPermission] = useState(null);
-  let camera = null
-  const [photo, setPhoto] = useState(null)
-
-  // had to abstract this outside of useEffect because react doesn't like
-  // having an async function passed into useEffect
-  const getCameraPermission = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    setCameraPermission(status === 'granted')
-  }
-
-  // using useEffect instead of componentDidMount
-  // https://reactjs.org/docs/hooks-effect.html
-  useEffect(() => {
-    getCameraPermission()
-  }, [])
-
-  const captureHandler = async () => {
-    const photo = await camera.takePictureAsync();
-    setPhoto(photo)
-  }
-
+export default () => {
   return (
-    <Container>
-      {hasCameraPermission
-        ? photo
-          ? <CapturedImage source={{ uri: photo.uri }} />
-          : <>
-            <Camera
-              ref={cameraRef => camera = cameraRef}
-              style={{ height: '100%', width: '100%' }}
-              type={Camera.Constants.Type.back} />
-            <CaptureBtn
-              onPress={captureHandler} />
-          </>
-        : <Text>Please give access to camera</Text>
-
-      }
-    </Container>
-  )
-}
+    <NativeRouter>
+      <View style={{ height: 50, display: "flex", justifyContent: "center" }}>
+        <Link to="/">
+          <Text>Home</Text>
+        </Link>
+      </View>
+      <Route exact path="/" component={Home} />
+      <Route path="/camera" component={Camera} />
+    </NativeRouter>
+  );
+};

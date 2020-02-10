@@ -10,11 +10,13 @@ justify-content: center;
 
 export default function RecipeList() {
     //take in base64
+
     useEffect(() => {
         findRecipesFromPhoto(photo)
     }, [])
 
     //Vision AI
+
     var urlEncodedImage = '';
     var visionAIKeywords = [];
 
