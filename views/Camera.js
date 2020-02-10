@@ -3,10 +3,8 @@ import { Button, Image, Text, TouchableOpacity, View } from "react-native";
 import styled from "styled-components";
 import * as Permissions from "expo-permissions";
 import { Camera as ExpoCamera } from "expo-camera";
+import * as FileSystem from "expo-file-system";
 
-// styled-components is a clean way of using css/scss and creating declarative
-// names for tags when placing into our return statement
-// https://www.styled-components.com/docs/basics#getting-started
 const Container = styled.View`
   align-items: center;
   flex: 1;
@@ -42,11 +40,11 @@ const ButtonContainer = styled.View`
 `;
 
 export const Camera = () => {
-  // using hooks instead of this.state
-  // https://reactjs.org/docs/hooks-intro.html
-  const [hasCameraPermission, setCameraPermission] = useState(null);
   let camera = null;
+  const [hasCameraPermission, setCameraPermission] = useState(null);
   const [photo, setPhoto] = useState(null);
+  const [photoBase64, setphotoBase64] = useState(false);
+  //
 
   // had to abstract this outside of useEffect because react doesn't like
   // having an async function passed into useEffect
@@ -55,19 +53,20 @@ export const Camera = () => {
     setCameraPermission(status === "granted");
   };
 
-  // using useEffect instead of componentDidMount
-  // https://reactjs.org/docs/hooks-effect.html
   useEffect(() => {
     getCameraPermission();
   }, []);
 
   const caputureHandler = async () => {
     const photo = await camera.takePictureAsync();
-    setPhoto(photo);
+    setPhoto(photo); // = {uri: string, width: number, height: number}
   };
 
   const acceptPhoto = () => {
-    // process photo
+    // encode photo uri to base64
+    FileSystem.readAsStringAsync(photo.uri, {
+      encoding: FileSystem.EncodingType.Base64
+    }).then(res => setphotoBase64(res));
   };
 
   const rejectPhoto = () => {
@@ -77,7 +76,10 @@ export const Camera = () => {
   return (
     <Container>
       {hasCameraPermission ? (
-        photo ? (
+        photoBase64 ? (
+          // this will become a redirect the the enocding passed forward
+          <Text>Photo encoded!</Text>
+        ) : photo ? (
           <>
             <CapturedImage source={{ uri: photo.uri }} />
             <ConfirmImage>
@@ -103,6 +105,7 @@ export const Camera = () => {
           </>
         )
       ) : (
+        // may want to move these permissions to App.js and handle them at the root level
         <Text>Please give access to camera</Text>
       )}
     </Container>
